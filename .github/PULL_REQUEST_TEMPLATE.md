@@ -1,38 +1,54 @@
-# Channel adapter PR
+# Implementation PR
+
+<!--
+  KEEP the two markers below intact. The boundary check (which paths
+  you can touch) and the scorecard bot (the comment you'll see on this
+  PR) both read these lines. Don't remove the leading `#`.
+-->
+
+# Group: <your-group-name>
+# Slot: <your-slot-name>
 
 ## Group
 
-- **Channel claimed**: <!-- e.g. telegram -->
-- **Group name**: <!-- e.g. group-04 -->
 - **Members**: <!-- one line per member -->
 
 ## What this PR adds
 
-- [ ] `glc/channels/catalogue/<channel>/adapter.py` — `on_message` + `send`
-- [ ] `glc/channels/catalogue/<channel>/schemas.py` — channel-specific types
-- [ ] Tests at `tests/channels/test_<channel>.py` pass
+For a channel slot:
+
+- [ ] `glc/channels/catalogue/<slot>/adapter.py` — `on_message` + `send`
+- [ ] `glc/channels/catalogue/<slot>/schemas.py` — channel-specific types (if any)
+- [ ] All 7 tests at `tests/channels/test_<slot>.py` pass
+
+For a voice provider slot:
+
+- [ ] `glc/voice/{stt,tts}/providers/<slot>/adapter.py` — `transcribe` or `synthesize`
+- [ ] `glc/voice/{stt,tts}/providers/<slot>/schemas.py` — provider-specific types (if any)
+- [ ] All 7 tests at `tests/voice/{stt,tts}/test_<slot>.py` pass
 
 ## Demo
 
-<!-- Link to the YouTube demo showing your adapter handling a real
-     message end to end, with the agent-cursor / chat-trace overlay
-     visible. -->
+<!-- REQUIRED. Link to the YouTube/Loom/Vimeo demo showing your
+     adapter handling a real upstream message end to end (NOT just the
+     mock). The CI tests run against the mock; the demo is how you
+     prove the real wire path works. -->
 
-## Channel quirks you hit
+## Wire-format quirks you hit
 
-<!-- 2-4 sentences. What was surprising about this channel's wire
-     format, auth model, rate-limit behaviour, or trust posture? -->
+<!-- 2-4 sentences. What was surprising about this slot's wire format,
+     auth model, rate-limit behaviour, or trust posture? -->
 
 ## Tests-included checklist
 
-- [ ] All tests in `tests/channels/test_<channel>.py` pass locally
-- [ ] `ruff check glc/channels/catalogue/<channel>/` is clean
-- [ ] `mypy glc/channels/catalogue/<channel>/` is clean
+- [ ] All 7 tests in `tests/.../test_<slot>.py` pass locally
+- [ ] `ruff check <owned_path>` is clean
+- [ ] `mypy <owned_path>` is clean
 - [ ] Adapter does **not** hold long-lived credentials in code or env files
-- [ ] Adapter consults `glc.security.trust_level.classify()` before
-      constructing the envelope
-- [ ] Adapter respects the channel's `allowed_senders` setting
+- [ ] For channel slots: adapter consults `glc.security.trust_level.classify()` before constructing the envelope
+- [ ] For channel slots: adapter respects the channel's `allowed_senders` setting
+- [ ] No imports from LangChain, CrewAI, AutoGen, or Open Interpreter
 
-## Notes for reviewers
+## Notes for the reviewer
 
-<!-- Anything the TA should know before merge. -->
+<!-- Anything the reviewer should know before merge. -->
