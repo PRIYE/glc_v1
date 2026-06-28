@@ -7,7 +7,7 @@ Includes reply token management for quota optimization.
 from __future__ import annotations
 
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 from glc.channels.base import ChannelAdapter
@@ -61,7 +61,7 @@ class Adapter(ChannelAdapter):
                 user_handle="unknown",
                 text=None,
                 trust_level="untrusted",
-                arrived_at=datetime.now(timezone.utc),
+                arrived_at=datetime.now(UTC),
             )
 
         # 4. Extract first event
@@ -73,7 +73,7 @@ class Adapter(ChannelAdapter):
                 user_handle="unknown",
                 text=None,
                 trust_level="untrusted",
-                arrived_at=datetime.now(timezone.utc),
+                arrived_at=datetime.now(UTC),
             )
 
         event = body.events[0]
@@ -99,7 +99,7 @@ class Adapter(ChannelAdapter):
             user_handle=user_handle,
             text=event.message.text,
             trust_level=trust_level,
-            arrived_at=datetime.now(timezone.utc),
+            arrived_at=datetime.now(UTC),
         )
 
     async def send(self, reply: ChannelReply) -> Any:
