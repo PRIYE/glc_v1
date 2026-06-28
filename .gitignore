@@ -37,3 +37,6 @@ install_token
 
 # Logs
 *.log
+
+.cursor/
+.specify/
